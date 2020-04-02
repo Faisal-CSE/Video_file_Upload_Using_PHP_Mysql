@@ -6,10 +6,11 @@
      
         if(isset($_POST['but_upload'])){
             $maxsize = 5242880; // 5MB
-                       
+            $t= time();          
             $name = $_FILES['file']['name'];
+            $name = "_".$t.$name;
             $target_dir = "videos/";
-            $target_file = $target_dir . $_FILES["file"]["name"];
+            $target_file = $target_dir ."_".$t.$_FILES["file"]["name"];
 
             // Select file type
             $videoFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -17,9 +18,14 @@
             // Valid file extensions
             $extensions_arr = array("mp4","avi","3gp","mov","mpeg");
 
+            // echo "Size :: ".$_FILES['file']['size'];
+            // exit();
+            // if(($_FILES['file']['size'] >= $maxsize) || ($_FILES["file"]["size"] == 0)) {
+            //     echo "File too large. File must be less than 5MB.";
+            // }
+
             // Check extension
             if( in_array($videoFileType,$extensions_arr) ){
-                
                 // Check file size
                 if(($_FILES['file']['size'] >= $maxsize) || ($_FILES["file"]["size"] == 0)) {
                     echo "File too large. File must be less than 5MB.";
@@ -37,7 +43,6 @@
             }else{
                 echo "Invalid file extension.";
             }
-        
         }
         ?>
     </head>
@@ -46,6 +51,5 @@
             <input type='file' name='file' />
             <input type='submit' value='Upload' name='but_upload'>
         </form>
-
     </body>
 </html>
